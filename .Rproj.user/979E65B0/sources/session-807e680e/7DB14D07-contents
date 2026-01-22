@@ -71,3 +71,22 @@ for(name in names(phi_list)){
   cat(name, "stationary:", res$stationary, "\n")
   print(Mod(res$roots))
 }
+
+# ---- Plot and save examples ----
+# Case: AR(1)
+png("figures/ar1_stationary.png", width = 800, height = 600)
+ts.plot(y_ar1_stat, main="AR(1) φ = 0.7 (stationary)")
+dev.off()
+
+png("figures/ar1_nonstationary.png", width = 800, height = 600)
+ts.plot(y_ar1_nonstat, main="AR(1) φ = -1.01 (non-stationary)")
+dev.off()
+
+# Case: AR(2)
+png("figures/ar2_stationary.png", width = 800, height = 600)
+ts.plot(y_ar2_stat, main="AR(2) φ = (-0.2,0.3) (stationary)")
+dev.off()
+
+png("figures/ar2_nonstationary.png", width = 800, height = 600)
+ts.plot(y_ar2_nonstat, main="AR(2) φ = (1.1,0.8) (non-stationary)")
+dev.off()
