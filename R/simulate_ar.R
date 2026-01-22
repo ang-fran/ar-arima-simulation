@@ -1,5 +1,7 @@
 rm(list = ls())
 
+set.seed(0)
+
 #  ---- Function to simulate AR(p) ----
 simulate_ar = function(phi, T = 500, y0 = NULL, sigma = 1) {
   p = length(phi)
@@ -89,4 +91,14 @@ dev.off()
 
 png("figures/ar2_nonstationary.png", width = 800, height = 600)
 ts.plot(y_ar2_nonstat, main="AR(2) φ = (1.1,0.8) (non-stationary)")
+dev.off()
+
+#  ---- Visual order identification ----
+# Use PACF to visualize cutoff
+png("figures/pacf_ar1.png", width = 800, height = 600)
+pacf(y_ar1_stat, main="PACF AR(1) stationary")
+dev.off()
+
+png("figures/pacf_ar2.png", width = 800, height = 600)
+pacf(y_ar2_stat, main="PACF AR(2) stationary")
 dev.off()
