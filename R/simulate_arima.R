@@ -67,3 +67,8 @@ print(fit_210)
 
 cat("\nARIMA(0,1,1) estimated:\n")
 print(fit_011)
+
+# ---- Plot examples ----
+png("figures/arima_101.png", width = 800, height = 600)
+ts.plot(y_arima_101, main="ARIMA(1,0,1) φ = 0.5, θ = 0.3 (stationary)")
+dev.off()
