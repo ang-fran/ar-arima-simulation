@@ -72,3 +72,15 @@ print(fit_011)
 png("figures/arima_101.png", width = 800, height = 600)
 ts.plot(y_arima_101, main="ARIMA(1,0,1) φ = 0.5, θ = 0.3 (stationary)")
 dev.off()
+
+png("figures/arima_100.png", width = 800, height = 600)
+ts.plot(y_arima_100, main="ARIMA(1,0,0) φ = 0.7, θ = 0 (stationary)")
+dev.off()
+
+png("figures/arima_210.png", width = 800, height = 600)
+ts.plot(y_arima_210, main="ARIMA(2,1,0) φ = (0.4, -0.2), θ = 0 (stationary)")
+dev.off()
+
+png("figures/arima_011.png", width = 800, height = 600)
+ts.plot(y_arima_011, main="ARIMA(0,1,1) φ = 0, θ = 0.6 (stationary)")
+dev.off()
