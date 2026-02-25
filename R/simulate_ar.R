@@ -20,7 +20,7 @@ simulate_ar = function(phi, T = 500, y0 = NULL, sigma = 1) {
     y[t] = sum(phi * rev(y[(t-p):(t-1)])) + e[t]
   }
   
-  return(y)
+  return(ts(y))
 }
 
 # ---- Stationarity check function ----
@@ -74,31 +74,86 @@ for(name in names(phi_list)){
   print(Mod(res$roots))
 }
 
-# ---- Plot and save examples ----
-# Case: AR(1)
-png("figures/ar1_stationary.png", width = 800, height = 600)
-ts.plot(y_ar1_stat, main="AR(1) φ = 0.7 (stationary)")
-dev.off()
+# ---- Visualization ----
 
-png("figures/ar1_nonstationary.png", width = 800, height = 600)
-ts.plot(y_ar1_nonstat, main="AR(1) φ = -1.01 (non-stationary)")
-dev.off()
+# ---- Global figure settings
+plot_width  = 1600
+plot_height = 900
+plot_res    = 150
 
-# Case: AR(2)
-png("figures/ar2_stationary.png", width = 800, height = 600)
-ts.plot(y_ar2_stat, main="AR(2) φ = (-0.2,0.3) (stationary)")
-dev.off()
+plot_params = function() {
+  par(
+    mar = c(5, 4, 6, 2),  # bottom, left, top, right
+    cex = 1.25,           # base scaling (ticks etc.)
+    cex.main = 3,       # title scaling
+    cex.lab = 1.35,       # axis label scaling
+    cex.axis = 1.15       # tick label scaling
+  )
+}
 
-png("figures/ar2_nonstationary.png", width = 800, height = 600)
-ts.plot(y_ar2_nonstat, main="AR(2) φ = (1.1,0.8) (non-stationary)")
-dev.off()
+save_png = function(filename, expr) {
+  png(filename, width = plot_width, height = plot_height, res = plot_res)
+  on.exit(dev.off(), add = TRUE)
+  plot_params()
+  expr
+}
 
-#  ---- Visual order identification ----
-# Use PACF to visualize cutoff
-png("figures/pacf_ar1.png", width = 800, height = 600)
-pacf(y_ar1_stat, main="PACF AR(1) stationary")
-dev.off()
+# AR(1) Stationary
+save_png("figures/ar1_stationary.png", {
+  ts.plot(
+    y_ar1_stat,
+    main = expression(AR(1)~phi==0.7~"(stationary)"),
+    ylab = expression(y[t]),
+    xlab = "Time"
+  )
+})
 
-png("figures/pacf_ar2.png", width = 800, height = 600)
-pacf(y_ar2_stat, main="PACF AR(2) stationary")
-dev.off()
+# AR(1) Non-stationary
+save_png("figures/ar1_nonstationary.png", {
+  ts.plot(
+    y_ar1_nonstat,
+    main = expression(AR(1)~phi==-1.01~"(non-stationary)"),
+    ylab = expression(y[t]),
+    xlab = "Time"
+  )
+})
+
+# AR(2) Stationary
+save_png("figures/ar2_stationary.png", {
+  ts.plot(
+    y_ar2_stat,
+    main = expression(AR(2)~phi==c(-0.2,0.3)~"(stationary)"),
+    ylab = expression(y[t]),
+    xlab = "Time"
+  )
+})
+
+# AR(2) Non-stationary
+save_png("figures/ar2_nonstationary.png", {
+  ts.plot(
+    y_ar2_nonstat,
+    main = expression(AR(2)~phi==c(1.1,0.8)~"(non-stationary)"),
+    ylab = expression(y[t]),
+    xlab = "Time"
+  )
+})
+
+# PACF AR(1) (stationary)
+save_png("figures/pacf_ar1.png", {
+  pacf(
+    y_ar1_stat,
+    main = "PACF: AR(1) stationary",
+    ylab = "Partial ACF",
+    xlab = "Lag"
+  )
+})
+
+# PACF AR(2) (stationary)
+save_png("figures/pacf_ar2.png", {
+  pacf(
+    y_ar2_stat,
+    main = "PACF: AR(2) stationary",
+    ylab = "Partial ACF",
+    xlab = "Lag"
+  )
+})
